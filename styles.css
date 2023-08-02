@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.container{
+    width: 500px;
+    height: 500px;
+    border: 2px solid black;
+    margin: 3rem auto;
+    padding: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: aqua;
+}
+
+.item{
+    flex-basis: 6.25%;
+    border: 1px solid black;
+    height: 6.25%;
+    background-color: white;
+}
