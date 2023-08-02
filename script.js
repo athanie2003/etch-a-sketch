@@ -1,24 +1,23 @@
 const body = document.querySelector('body');
 
-const container = document.createElement('div');
-container.classList.add('container');
+const btnDiv = document.getElementsByClassName('btns');
 
 const drawBtn = document.createElement('button');
-drawBtn.classList.add('draw');
 drawBtn.innerText = 'Draw';
 
 const clearBtn = document.createElement('button');
-clearBtn.classList.add('clear');
 clearBtn.innerText = 'Clear';
 
 const eraseBtn = document.createElement('button');
-eraseBtn.classList.add('erase');
 eraseBtn.innerText = 'Erase';
 
+const container = document.createElement('div');
+container.classList.add('container');
+
 body.appendChild(container);
-body.appendChild(drawBtn);
-body.appendChild(clearBtn);
-body.appendChild(eraseBtn);
+btnDiv[0].appendChild(drawBtn);
+btnDiv[0].appendChild(clearBtn);
+btnDiv[0].appendChild(eraseBtn);
 
 let divs = [];
 
