@@ -1,6 +1,7 @@
 const body = document.querySelector('body');
 
-const btnDiv = document.getElementsByClassName('btns');
+const btnDiv = document.createElement('div');
+btnDiv.classList.add('btns');
 
 const drawBtn = document.createElement('button');
 drawBtn.innerText = 'Draw';
@@ -11,13 +12,32 @@ clearBtn.innerText = 'Clear';
 const eraseBtn = document.createElement('button');
 eraseBtn.innerText = 'Erase';
 
+const colorBtn = document.createElement('button');
+colorBtn.innerText = 'Colourful';
+
+const darkBtn = document.createElement('button');
+darkBtn.innerText = 'Darken';
+
 const container = document.createElement('div');
 container.classList.add('container');
 
+const sliderDiv = document.createElement('div');
+sliderDiv.classList.add('slider');
+
+const slider = document.createElement('input');
+slider.type = 'range';
+slider.min = '1';
+slider.max = '100';
+slider.value = '50';
+
+
 body.appendChild(container);
-btnDiv[0].appendChild(drawBtn);
-btnDiv[0].appendChild(clearBtn);
-btnDiv[0].appendChild(eraseBtn);
+body.appendChild(btnDiv);
+btnDiv.appendChild(drawBtn);
+btnDiv.appendChild(colorBtn);
+btnDiv.appendChild(darkBtn);
+btnDiv.appendChild(clearBtn);
+btnDiv.appendChild(eraseBtn);
 
 let divs = [];
 
