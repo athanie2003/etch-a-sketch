@@ -21,16 +21,25 @@ darkBtn.innerText = 'Darken';
 const container = document.createElement('div');
 container.classList.add('container');
 
-const sliderDiv = document.createElement('div');
-sliderDiv.classList.add('slider');
+const sizeDiv = document.createElement('div');
+sizeDiv.classList.add('textBox');
 
-const slider = document.createElement('input');
-slider.type = 'range';
-slider.min = '1';
-slider.max = '100';
-slider.value = '50';
+const p = document.createElement('p');
+p.innerText = 'Choose a size from 1 to 100';
 
+const textBox = document.createElement('input');
+textBox.type = 'text';
 
+const br = document.createElement('br');
+
+const okBtn = document.createElement('button');
+okBtn.innerText = 'Ok';
+
+body.appendChild(sizeDiv);
+sizeDiv.appendChild(p);
+sizeDiv.appendChild(textBox);
+sizeDiv.appendChild(br);
+sizeDiv.appendChild(okBtn);
 body.appendChild(container);
 body.appendChild(btnDiv);
 btnDiv.appendChild(drawBtn);
@@ -42,27 +51,36 @@ btnDiv.appendChild(eraseBtn);
 let divs = [];
 
 function createGrid(num){
+    const size = (1/num)*100;
     for(let i = 0; i < num*num; i++){
         const div = document.createElement('div');
         div.classList.add('item');
+        // div.style.cssText = `flex-basis: ${size}%; height: ${size}%;`;
         container.appendChild(div);
         divs.push(div);
         div.addEventListener('mouseover', () => {
             div.style.cssText = "background-color: black;"
         });
     }
+}
 
-
+function removeGrid(){
+    const allDivs = container.querySelectorAll('.item');
+        allDivs.forEach(item => {
+           container.removeChild(item); 
+           divs.pop();
+        });
 }
 
 createGrid(16);
+
 eraseBtn.addEventListener('click', () => {
     divs.forEach(div => {
         div.addEventListener('mouseover', () => {
             div.style.cssText = "background-color: white;";
         });  
     });
-})
+});
 
 clearBtn.addEventListener('click', () => {
     divs.forEach(div => {
@@ -71,7 +89,7 @@ clearBtn.addEventListener('click', () => {
             div.style.cssText = "background-color: black;";
         }); 
     });
-})
+});
 
 drawBtn.addEventListener('click', () => {
     divs.forEach(div => {
@@ -79,5 +97,18 @@ drawBtn.addEventListener('click', () => {
             div.style.cssText = "background-color: black;";
         });  
     });
-})
+});
+
+okBtn.addEventListener('click', () => {
+    if(Number(textBox.value) >= 1 && 
+    Number(textBox.value) <= 100 &&
+    Number(textBox.value) % 1 == 0
+    ){
+        removeGrid();
+        createGrid(Number(textBox.value));
+    }
+    else{
+        alert('Invalid Entry!');
+    }
+});
 
