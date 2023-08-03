@@ -58,12 +58,11 @@ function createGrid(num){
         div.style.cssText = `flex-basis: ${size}%; height: ${size}%;`;
         container.appendChild(div);
         divs.push(div);
-        div.addEventListener('mouseover', () => {
-            div.style.backgroundColor = "black";
-        });
+        div.style.backgroundColor = "white";
     }
-
 }
+
+
 
 function removeGrid(){
     const allDivs = container.querySelectorAll('.item');
@@ -86,10 +85,7 @@ eraseBtn.addEventListener('click', () => {
 
 clearBtn.addEventListener('click', () => {
     divs.forEach(div => {
-        div.style.backgroundColor = "white" ;
-        div.addEventListener('mouseover', () => {
-            div.style.backgroundColor = "black";
-        }); 
+        div.style.backgroundColor = "white" ; 
     });
 });
 
@@ -97,6 +93,38 @@ drawBtn.addEventListener('click', () => {
     divs.forEach(div => {
         div.addEventListener('mouseover', () => {
             div.style.backgroundColor = "black";
+        });  
+    });
+});
+
+colorBtn.addEventListener('click', () => {
+    divs.forEach(div => {
+        div.addEventListener('mouseover', () => {
+            const red = Math.floor(Math.random() * 256);
+            const green = Math.floor(Math.random() * 256);
+            const blue = Math.floor(Math.random() * 256);
+            div.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        });  
+    });
+});
+
+darkBtn.addEventListener('click', () => {
+    divs.forEach(div => {
+        div.addEventListener('mouseover', () => {
+            const bgColor = window.getComputedStyle(div).backgroundColor;
+            console.log(bgColor);
+            const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+            const rgb = bgColor.match(regex);
+
+            const red = parseInt(rgb[1], 10);
+            const green = parseInt(rgb[2], 10);
+            const blue = parseInt(rgb[3], 10);
+
+            const newRed = Math.max(0, red - Math.round(25.5));
+            const newGreen = Math.max(0, green - Math.round(25.5));
+            const newBlue = Math.max(0, blue - Math.round(25.5));
+
+            div.style.backgroundColor = `rgb(${newRed}, ${newGreen}, ${newBlue})`;
         });  
     });
 });
