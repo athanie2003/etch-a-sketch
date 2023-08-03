@@ -55,13 +55,14 @@ function createGrid(num){
     for(let i = 0; i < num*num; i++){
         const div = document.createElement('div');
         div.classList.add('item');
-        // div.style.cssText = `flex-basis: ${size}%; height: ${size}%;`;
+        div.style.cssText = `flex-basis: ${size}%; height: ${size}%;`;
         container.appendChild(div);
         divs.push(div);
         div.addEventListener('mouseover', () => {
-            div.style.cssText = "background-color: black;"
+            div.style.backgroundColor = "black";
         });
     }
+
 }
 
 function removeGrid(){
@@ -74,19 +75,20 @@ function removeGrid(){
 
 createGrid(16);
 
+
 eraseBtn.addEventListener('click', () => {
     divs.forEach(div => {
         div.addEventListener('mouseover', () => {
-            div.style.cssText = "background-color: white;";
+            div.style.backgroundColor = "white";
         });  
     });
 });
 
 clearBtn.addEventListener('click', () => {
     divs.forEach(div => {
-        div.style.cssText = "background-color: white;" ;
+        div.style.backgroundColor = "white" ;
         div.addEventListener('mouseover', () => {
-            div.style.cssText = "background-color: black;";
+            div.style.backgroundColor = "black";
         }); 
     });
 });
@@ -94,7 +96,7 @@ clearBtn.addEventListener('click', () => {
 drawBtn.addEventListener('click', () => {
     divs.forEach(div => {
         div.addEventListener('mouseover', () => {
-            div.style.cssText = "background-color: black;";
+            div.style.backgroundColor = "black";
         });  
     });
 });
@@ -110,5 +112,6 @@ okBtn.addEventListener('click', () => {
     else{
         alert('Invalid Entry!');
     }
+    textBox.value = "";
 });
 
