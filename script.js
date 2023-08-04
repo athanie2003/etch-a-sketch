@@ -1,6 +1,6 @@
 const body = document.querySelector('body');
 
-//creating elements
+// creating elements
 const title = document.createElement('h1');
 title.innerText = 'Etch-a-Sketch';
 
@@ -42,7 +42,7 @@ const br = document.createElement('br');
 const okBtn = document.createElement('button');
 okBtn.innerText = 'Ok';
 
-//adding to html
+// adding to html
 body.appendChild(title);
 body.appendChild(splitTitle);
 splitTitle.appendChild(sizeDiv);
@@ -61,7 +61,7 @@ btnDiv.appendChild(eraseBtn);
 let divs = [];
 
 
-//functions
+// functions
 function createGrid(num){
     const size = (1/num)*100;
     for(let i = 0; i < num*num; i++){
@@ -96,16 +96,16 @@ function color(div){
 
 function darken(div){
     const bgColor = window.getComputedStyle(div).backgroundColor;
-    //separate numbers from rgb format to array
+    // separate numbers from rgb format to array
     const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
     const rgb = bgColor.match(regex);
 
-    //old rgb
+    // old rgb
     const red = parseInt(rgb[1], 10);
     const green = parseInt(rgb[2], 10);
     const blue = parseInt(rgb[3], 10);
 
-    //new rgb
+    // new rgb
     const newRed = Math.max(0, red - Math.round(red * 0.1));
     const newGreen = Math.max(0, green - Math.round(green * 0.1));
     const newBlue = Math.max(0, blue - Math.round(blue * 0.1));  
@@ -119,7 +119,7 @@ function erase(div){
 }
 
 function setupDivEventListeners(){
-    //add event listeners only once
+    // add event listeners only once
     divs.forEach(div => {
         div.addEventListener('mouseover', () => {
             if (currentMode === 'darken') {
@@ -137,12 +137,10 @@ function setupDivEventListeners(){
 
 createGrid(16);
 
-//keeps track of current mode
+// keeps track of current mode
 let currentMode = 'draw';
 
-
-
-//buttons
+// buttons
 darkBtn.addEventListener('click', () => {
     currentMode = 'darken';
 });
@@ -150,19 +148,18 @@ darkBtn.addEventListener('click', () => {
 eraseBtn.addEventListener('click', () => {
     currentMode = 'erase';
 });
-
-clearBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.style.backgroundColor = "white" ; 
-    });
-});
-
 drawBtn.addEventListener('click', () => {
     currentMode = 'draw';
 });
 
 colorBtn.addEventListener('click', () => {
     currentMode = 'color';
+});
+
+clearBtn.addEventListener('click', () => {
+    divs.forEach(div => {
+        div.style.backgroundColor = "white" ; 
+    });
 });
 
 okBtn.addEventListener('click', () => {

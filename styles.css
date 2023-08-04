@@ -21,6 +21,7 @@ h1{
     margin-bottom: 20px;
 }
 
+/* etch-a sketch */
 .container{
     width: 700px;
     height: 700px;
@@ -35,6 +36,7 @@ h1{
     background-color: white;
 }
 
+/* functional buttons */
 .btns{
     display: flex;
     flex-direction: column;
@@ -52,6 +54,7 @@ button{
     background-color: rgb(100, 100, 100);
 }
 
+/* choosing size */
 .textBox{
     background-color: rgb(124, 124, 124);
     padding: 32.5px;
