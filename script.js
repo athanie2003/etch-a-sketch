@@ -1,5 +1,12 @@
 const body = document.querySelector('body');
 
+//creating elements
+const title = document.createElement('h1');
+title.innerText = 'Etch-a-Sketch';
+
+const splitTitle = document.createElement('div');
+splitTitle.classList.add('no-title');
+
 const btnDiv = document.createElement('div');
 btnDiv.classList.add('btns');
 
@@ -35,13 +42,16 @@ const br = document.createElement('br');
 const okBtn = document.createElement('button');
 okBtn.innerText = 'Ok';
 
-body.appendChild(sizeDiv);
+//adding to html
+body.appendChild(title);
+body.appendChild(splitTitle);
+splitTitle.appendChild(sizeDiv);
 sizeDiv.appendChild(p);
 sizeDiv.appendChild(textBox);
 sizeDiv.appendChild(br);
 sizeDiv.appendChild(okBtn);
-body.appendChild(container);
-body.appendChild(btnDiv);
+splitTitle.appendChild(container);
+splitTitle.appendChild(btnDiv);
 btnDiv.appendChild(drawBtn);
 btnDiv.appendChild(colorBtn);
 btnDiv.appendChild(darkBtn);
@@ -50,6 +60,8 @@ btnDiv.appendChild(eraseBtn);
 
 let divs = [];
 
+
+//functions
 function createGrid(num){
     const size = (1/num)*100;
     for(let i = 0; i < num*num; i++){
@@ -62,8 +74,6 @@ function createGrid(num){
     }
 }
 
-
-
 function removeGrid(){
     const allDivs = container.querySelectorAll('.item');
         allDivs.forEach(item => {
@@ -72,14 +82,62 @@ function removeGrid(){
         });
 }
 
+function draw(div){
+    div.style.backgroundColor = "black";
+}
+
+function color(div){
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    div.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+}
+
+function darken(bgColor){
+    const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
+    const rgb = bgColor.match(regex);
+    console.log(bgColor);
+
+    const red = parseInt(rgb[1], 10);
+    const green = parseInt(rgb[2], 10);
+    const blue = parseInt(rgb[3], 10);
+
+    const newRed = Math.max(0, red - 25);
+    const newGreen = Math.max(0, green - 25);
+    const newBlue = Math.max(0, blue - 25);
+
+    return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
+}
+
+function erase(div){
+    div.style.backgroundColor = "white";
+    console.log('testing');
+}
+
 createGrid(16);
 
 
+//buttons
+darkBtn.addEventListener('click', () => {
+    divs.forEach(div => {
+        div.removeEventListener('mouseover', draw);
+        div.removeEventListener('mouseover', color);
+        div.removeEventListener('mouseover', erase);
+        div.addEventListener('mouseover', () => {
+            const bgColor = window.getComputedStyle(div).backgroundColor;
+            div.style.backgroundColor = darken(bgColor);
+        }); 
+    });
+});
+
 eraseBtn.addEventListener('click', () => {
     divs.forEach(div => {
+        div.removeEventListener('mouseover', draw);
+        div.removeEventListener('mouseover', color);
+        div.removeEventListener('mouseover', darken);
         div.addEventListener('mouseover', () => {
-            div.style.backgroundColor = "white";
-        });  
+            erase(div);
+        });
     });
 });
 
@@ -91,41 +149,23 @@ clearBtn.addEventListener('click', () => {
 
 drawBtn.addEventListener('click', () => {
     divs.forEach(div => {
+        div.removeEventListener('mouseover', draw);
+        div.removeEventListener('mouseover', color);
+        div.removeEventListener('mouseover', darken);
         div.addEventListener('mouseover', () => {
-            div.style.backgroundColor = "black";
-        });  
-    });
+           draw(div); 
+        });
+    }); 
 });
 
 colorBtn.addEventListener('click', () => {
     divs.forEach(div => {
+        div.removeEventListener('mouseover', draw);
+        div.removeEventListener('mouseover', darken);
+        div.removeEventListener('mouseover', erase);
         div.addEventListener('mouseover', () => {
-            const red = Math.floor(Math.random() * 256);
-            const green = Math.floor(Math.random() * 256);
-            const blue = Math.floor(Math.random() * 256);
-            div.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-        });  
-    });
-});
-
-darkBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.addEventListener('mouseover', () => {
-            const bgColor = window.getComputedStyle(div).backgroundColor;
-            console.log(bgColor);
-            const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
-            const rgb = bgColor.match(regex);
-
-            const red = parseInt(rgb[1], 10);
-            const green = parseInt(rgb[2], 10);
-            const blue = parseInt(rgb[3], 10);
-
-            const newRed = Math.max(0, red - Math.round(25.5));
-            const newGreen = Math.max(0, green - Math.round(25.5));
-            const newBlue = Math.max(0, blue - Math.round(25.5));
-
-            div.style.backgroundColor = `rgb(${newRed}, ${newGreen}, ${newBlue})`;
-        });  
+            color(div);
+        }); 
     });
 });
 
