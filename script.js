@@ -72,6 +72,7 @@ function createGrid(num){
         divs.push(div);
         div.style.backgroundColor = "white";
     }
+    setupDivEventListeners();
 }
 
 function removeGrid(){
@@ -117,25 +118,29 @@ function erase(div){
     div.style.backgroundColor = "white";
 }
 
+function setupDivEventListeners(){
+    //add event listeners only once
+    divs.forEach(div => {
+        div.addEventListener('mouseover', () => {
+            if (currentMode === 'darken') {
+                darken(div);
+            } else if (currentMode === 'erase') {
+                erase(div);
+            } else if (currentMode === 'draw') {
+                draw(div);
+            } else if (currentMode === 'color') {
+                color(div);
+            }
+        });
+    });
+}
+
 createGrid(16);
 
 //keeps track of current mode
 let currentMode = 'draw';
 
-//add event listeners only once
-divs.forEach(div => {
-    div.addEventListener('mouseover', () => {
-        if (currentMode === 'darken') {
-            darken(div);
-        } else if (currentMode === 'erase') {
-            erase(div);
-        } else if (currentMode === 'draw') {
-            draw(div);
-        } else if (currentMode === 'color') {
-            color(div);
-        }
-    });
-});
+
 
 //buttons
 darkBtn.addEventListener('click', () => {
