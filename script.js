@@ -93,52 +93,57 @@ function color(div){
     div.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
 }
 
-function darken(bgColor){
+function darken(div){
+    const bgColor = window.getComputedStyle(div).backgroundColor;
+    //separate numbers from rgb format to array
     const regex = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/;
     const rgb = bgColor.match(regex);
-    console.log(bgColor);
 
+    //old rgb
     const red = parseInt(rgb[1], 10);
     const green = parseInt(rgb[2], 10);
     const blue = parseInt(rgb[3], 10);
 
-    const newRed = Math.max(0, red - 25);
-    const newGreen = Math.max(0, green - 25);
-    const newBlue = Math.max(0, blue - 25);
+    //new rgb
+    const newRed = Math.max(0, red - Math.round(red * 0.1));
+    const newGreen = Math.max(0, green - Math.round(green * 0.1));
+    const newBlue = Math.max(0, blue - Math.round(blue * 0.1));  
 
-    return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
+    div.style.backgroundColor = `rgb(${newRed}, ${newGreen}, ${newBlue})`;
+    console.log('testing')
 }
 
 function erase(div){
     div.style.backgroundColor = "white";
-    console.log('testing');
 }
 
 createGrid(16);
 
+//keeps track of current mode
+let currentMode = 'draw';
 
-//buttons
-darkBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.removeEventListener('mouseover', draw);
-        div.removeEventListener('mouseover', color);
-        div.removeEventListener('mouseover', erase);
-        div.addEventListener('mouseover', () => {
-            const bgColor = window.getComputedStyle(div).backgroundColor;
-            div.style.backgroundColor = darken(bgColor);
-        }); 
+//add event listeners only once
+divs.forEach(div => {
+    div.addEventListener('mouseover', () => {
+        if (currentMode === 'darken') {
+            darken(div);
+        } else if (currentMode === 'erase') {
+            erase(div);
+        } else if (currentMode === 'draw') {
+            draw(div);
+        } else if (currentMode === 'color') {
+            color(div);
+        }
     });
 });
 
+//buttons
+darkBtn.addEventListener('click', () => {
+    currentMode = 'darken';
+});
+
 eraseBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.removeEventListener('mouseover', draw);
-        div.removeEventListener('mouseover', color);
-        div.removeEventListener('mouseover', darken);
-        div.addEventListener('mouseover', () => {
-            erase(div);
-        });
-    });
+    currentMode = 'erase';
 });
 
 clearBtn.addEventListener('click', () => {
@@ -148,25 +153,11 @@ clearBtn.addEventListener('click', () => {
 });
 
 drawBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.removeEventListener('mouseover', draw);
-        div.removeEventListener('mouseover', color);
-        div.removeEventListener('mouseover', darken);
-        div.addEventListener('mouseover', () => {
-           draw(div); 
-        });
-    }); 
+    currentMode = 'draw';
 });
 
 colorBtn.addEventListener('click', () => {
-    divs.forEach(div => {
-        div.removeEventListener('mouseover', draw);
-        div.removeEventListener('mouseover', darken);
-        div.removeEventListener('mouseover', erase);
-        div.addEventListener('mouseover', () => {
-            color(div);
-        }); 
-    });
+    currentMode = 'color';
 });
 
 okBtn.addEventListener('click', () => {
@@ -182,4 +173,3 @@ okBtn.addEventListener('click', () => {
     }
     textBox.value = "";
 });
-
